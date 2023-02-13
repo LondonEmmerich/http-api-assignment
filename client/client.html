@@ -3,10 +3,6 @@
 <head>
   <title>Our simple HTTP server</title>
   <link rel="stylesheet" type="text/css" href="/style.css">
-  
-  <script>
-
-  </script>
 </head>
 <body>
   <section id="top">
@@ -28,5 +24,76 @@
   </section>
   <section id="content">
   </section>
+  <script>
+    const handleResponse = async (response) => {
+        const content = document.querySelector("#content");
+
+        switch(response.status){
+            case 200:
+                content.innerHTML = "<b>Success!</b>";
+                break;
+            case 400:
+                content.innerHTML = "<b>Bad Request!</b>";
+                break;
+            case 401:
+                content.innerHTML = "<b>Unauthorized!</b>";
+                break;
+            case 403:
+                content.innerHTML = "<b>Forbidden!</b>";
+                break;
+            case 404:
+                content.innerHTML = "<b>Page not found!</b>";
+                break;
+            case 500:
+                content.innerHTML = "<b>Internal error!</b>";
+                break;
+            case 501:
+                content.innerHTML = "<b>Not implemented!</b>";
+                break;
+            default:
+                content.innerHTML = "<b>Error not found!</b>";
+                break;
+        }
+
+        response.text().then((resText) => {
+          console.log(response.headers);
+          console.log(response.headers.get("Content-Type"));
+          const contentType = response.headers.get("Content-Type");
+          console.log(contentType);
+
+          if(contentType === "text/xml"){
+            const parsedResponse = new window.DOMParser().parseFromString(resText, "text/xml");
+            content.innerHTML += parsedResponse.querySelector("message");
+          }
+          else{
+            //const parsedResponse = JSON.parse(resText);
+            //content.innerHTML = parsedResponse.message;
+          }
+        });
+
+        //const obj = await response.json();
+        //console.log(obj);
+        //const objString = JSON.stringify(obj);
+        //console.log(objString);
+        //content.innerHTML += `<p>${objString}</p>`;
+    };
+
+    const requestUpdate = () => {
+        const url = document.querySelector("#page").value;
+        const type = document.querySelector("#type").value;
+
+        let fetchPromise = fetch(url, {
+            method: "GET",
+            headers: {
+                "Accept":type,
+            }
+          });
+
+        fetchPromise.then((response) => {handleResponse(response)});
+    };
+
+    document.querySelector("#send").onclick = requestUpdate;
+    window.onload = requestUpdate;
+  </script>
 </body>
 </html>

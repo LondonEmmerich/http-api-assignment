@@ -1,0 +1,26 @@
+{
+  "name": "http-api-assignment",
+  "version": "1.0.0",
+  "description": "430 assignment 4",
+  "main": "./src/server.js",
+  "scripts": {
+    "start": "node ./src/server.js",
+    "pretest": "eslint ./src --fix",
+    "test": "echo \"Tests successful\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LondonEmmerich/http-api-assignment.git"
+  },
+  "author": "London Emmerich",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/LondonEmmerich/http-api-assignment/issues"
+  },
+  "homepage": "https://github.com/LondonEmmerich/http-api-assignment#readme",
+  "dependencies": {
+    "eslint": "^8.33.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-plugin-import": "^2.27.5"
+  }
+}
